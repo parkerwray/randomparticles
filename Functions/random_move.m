@@ -1,0 +1,13 @@
+function new_cord = random_move(cord, dimension)
+% Randomly move the particle +1, 0, or -1 in the x, y, and z dimensions.
+if dimension == 2
+       new_cord = [cord(1)+round(2*rand-1),...
+       cord(2)+round(2*rand-1),...
+       cord(3)];
+else
+   new_cord = [cord(1)+round(2*rand-1),...
+       cord(2)+round(2*rand-1),...
+       cord(3)+round(2*rand-1)];
+end
+  
+end
