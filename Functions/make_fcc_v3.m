@@ -1,4 +1,4 @@
-function [cord, bounds, a, am, Nspheres] = ...
+function [cord, bounds, a, Nspheres] = ...
     make_fcc_v3(r, bounds, dimension)
 %{ 
     This function generates spheres in a FCC orientation within the limits
@@ -17,36 +17,28 @@ upper_bound = bounds;
 lower_bound = -bounds;
 lower_bound(3) = 0;
 
-
-% Vsphere = (4/3)*pi*(r^3);
-% Asphere = pi*(r^2);
 a = 4*r./sqrt(2); 
-am = a;
-
-% disp(['Lattice spacing: ', num2str(am)]);
-% disp(['Particle spacing : ', num2str(2*d)]);
-
 
 if dimension == 2
     % Primative lattice vectors for the NP positions in FCC
     l0 = [0,0,0];
-    l1 = [am,am,0];
-    l2 = [0,am,0];
-    l3 = [am,0,0];
+    l1 = [a,a,0];
+    l2 = [0,a,0];
+    l3 = [a,0,0];
     % Translation vectors to move the lattice across space
-    vx = [1,0,0].*am;
-    vy = [0,1,0].*am;
-    vz = [0,0,0].*am;    
+    vx = [1,0,0].*a;
+    vy = [0,1,0].*a;
+    vz = [0,0,0].*a;    
 else
     % Primative lattice vectors for the NP positions in FCC
     l0 = [0,0,0];
-    l1 = [am,am,0]./2;
-    l2 = [0,am,am]./2;
-    l3 = [am,0,am]./2;
+    l1 = [a,a,0]./2;
+    l2 = [0,a,a]./2;
+    l3 = [a,0,a]./2;
     % Translation vectors to move the lattice across space
-    vx = [1,0,0].*am;
-    vy = [0,1,0].*am;
-    vz = [0,0,1].*am;    
+    vx = [1,0,0].*a;
+    vy = [0,1,0].*a;
+    vz = [0,0,1].*a;    
 end
 
 
@@ -73,23 +65,35 @@ for z = lower_bound(3):upper_bound(3)
         end
     end
 end
-  
+
+% An FCC lattice is generated slightly overflowing the desired simulation
+% region. This is becuase you repeat an enire lattice, which has multiple
+% particles. Therefore, to get the simulation region we want, we cut our
+% the particles that are over our simulation bounds. 
+
+% Cut particles in lower half of x,y,z bounds  
 cord(cord(:,1)<lower_bound(1).*a,:) = [];
 cord(cord(:,2)<lower_bound(2).*a,:) = [];
 cord(cord(:,3)<lower_bound(3).*a,:) = [];
 
+% Cut particles in lower half of x,y,z bounds 
 cord(cord(:,1)>upper_bound(1).*a,:) = [];
 cord(cord(:,2)>upper_bound(2).*a,:) = [];
 cord(cord(:,3)>upper_bound(3).*a-r,:) = [];
 
+% To ensure that the center particle is always at the center of the entire 
+% simulation region, the FCC lattice is generated first only in the upper
+% half plane z = 0 to z_max. Then the entire particle distribution is 
+% flipped onto the lower half plane.
 cord= do_z_flip(cord);
 
-% Account for periodic repetitions! 
+% Account for periodic repetitions! Only keep one particle for every
+% particle on the edge of the simulation region.
 cord(cord(:,1)>upper_bound(1).*a-r,:) = [];
 cord(cord(:,2)>upper_bound(2).*a-r,:) = [];
 cord(cord(:,3)>upper_bound(3).*a-r,:) = [];
 
-
-
+Nspheres = size(cord,1);
+bounds = [-upper_bound; upper_bound];
 
 end

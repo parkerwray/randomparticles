@@ -14,6 +14,4 @@ for idx = 1:size(cords,1)
     end
 end
 
-
-
 end

@@ -23,6 +23,9 @@ function new_cord = make_mirror_3D(cord, r, lower_bounds, upper_bounds)
                 x0, y0, zloc;...
                 xloc, y0, zloc];
                 
-     new_cord = unique(new_cord,'rows');    
+     new_cord = unique(new_cord,'rows','stable'); 
+     % Set order changed to "stable".
+     % Without this, unique sorts the matrix. -PW
+
 
 end
