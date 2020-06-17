@@ -24,8 +24,5 @@ function cords = fix_overlap(cords, radii, lower_bounds, upper_bounds)
         end
         delta = get_all_move_directions(cords, radii, ...
             lower_bounds, upper_bounds);
-        if count == 1000
-            break
-        end
     end
 end

@@ -11,7 +11,6 @@ hold on
 % figure,
 hold on 
 for i = 1:size(cord,1)
-    disp(num2str(i))
     surf(r(i).*x+cord(i,1), r(i).*y+cord(i,2), r(i).*z+cord(i,3))
     %shading interp
 end
