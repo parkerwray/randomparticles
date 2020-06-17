@@ -71,6 +71,7 @@ for z = lower_bound(3):upper_bound(3)
         end
     end
 end
+
 % There is a ERROR in the 2D code. It will create repeated particles that
 % are almost exactly ontop of each other (difference is in 7th decimal
 % place). I used the unique function as a lazy patch. But this broke the 3D
@@ -138,7 +139,6 @@ bounds = [-upper_bound;upper_bound].*a;
 cord = make_random(cord, r, bounds(1,:)+[0,0,r], bounds(2,:)-[0,0,r], giggles, dimension);
 
 cord = make_all_mirrors(cord, r, bounds(1,:), bounds(2,:));
-
 
 disp(newline);
 end
