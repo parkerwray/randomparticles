@@ -1,5 +1,6 @@
 
-function [overlap_distance, overlap_idx] = check_distance_function_v2(cords, r, lower_bounds, upper_bounds)
+function [overlap_distance, overlap_idx] = ...
+    check_distance_function_v2(cords, r, lower_bounds, upper_bounds)
 overlap_idx = [];
 overlap_distance = [];
 for idx = 1:size(cords,1)

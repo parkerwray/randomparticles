@@ -4,14 +4,10 @@
 function [Ntouch, ffcalc, is_zero, dist, overlap_idx] = check_touch_ff_orig(cord, ff, r, lower_bound, upper_bound)
 
     dummy = cord;
-    [overlap_distance, overlap_idx] = check_distance_function_v2(dummy, r, lower_bound, upper_bound);
+    [overlap_distance, overlap_idx] =...
+        check_distance_function_v2(dummy, r, lower_bound, upper_bound);
     Ntouch = size(overlap_idx,1);
-%     [I, ffcalc] = ...
-%         visualize_spheres(dummy,...
-%         round(upper_bound(1)-lower_bound(1)), round(upper_bound(3)-lower_bound(3)),...
-%         r, ff, 0);
-%     figure, 
-%     imshow(squeeze(I(:,:,5)))
+
     
     ffcalc = ff;
     dist = sqrt(dummy(:,1).^2+dummy(:,2).^2+dummy(:,3).^2);

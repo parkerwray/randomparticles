@@ -1,3 +1,4 @@
+
 function [cord, bounds, a, am, Nspheres] = ...
     make_random_fcc_v2(r, ff, bounds, giggles, dimension)
 
@@ -35,7 +36,7 @@ if dimension == 2
     vz = [0,0,0].*am;    
 else
     % Primative lattice vectors for the NP positions in FCC
-    l0 = [0,0,0];
+    %l0 = [0,0,0];
     l1 = [am,am,0]./2;
     l2 = [0,am,am]./2;
     l3 = [am,0,am]./2;
@@ -44,10 +45,6 @@ else
     vy = [0,1,0].*am;
     vz = [0,0,1].*am;    
 end
-% % Translation vectors to move the lattice across space
-% vx = [1,0,0].*am;
-% vy = [0,1,0].*am;
-% vz = [0,0,1].*am;
 
 % Generate 
 cord = [0,0,0];
@@ -63,18 +60,27 @@ for z = lower_bound(3):upper_bound(3)
             if x==0 && y==0 && z==0
                 continue;
             else
-                cord = [cord; l0+v];
+                %cord = [cord; l0+v];
                 cord = [cord; l1+v];
                 cord = [cord; l2+v];
                 %if dimension == 3
-                    cord = [cord; l3+v];
+                cord = [cord; l3+v];
                 %end
             end
             
         end
     end
 end
-cord = unique(round(cord,5),'rows');
+% There is a ERROR in the 2D code. It will create repeated particles that
+% are almost exactly ontop of each other (difference is in 7th decimal
+% place). I used the unique function as a lazy patch. But this broke the 3D
+% code that needs full resolution. For now, the FCC doesn't properly do 2D.
+% The 2D was a quick implementation of this code to test to make it more
+% generalizable. Extensive tests will need to be performed. Perhaps all 2D
+% should be done in a seperate funciton to avoid problems like this...
+
+% cord = unique(round(cord,5),'rows'); %Breaks 3D necessary for 2D
+
 cord(cord(:,1)<lower_bound(1).*a,:) = [];
 cord(cord(:,2)<lower_bound(2).*a,:) = [];
 cord(cord(:,3)<lower_bound(3).*a,:) = [];
@@ -90,8 +96,10 @@ cord(cord(:,1)>upper_bound(1).*a-r,:) = [];
 cord(cord(:,2)>upper_bound(2).*a-r,:) = [];
 cord(cord(:,3)>upper_bound(3).*a-r,:) = [];
 
-% This variable is for checking degree of randomness vs. periodic.
-cord_periodic = cord;
+% Use this to check if the periodic FCC process was performed correctly
+% [Ntouch, ffcalc, is_zero, dist, overlap_idx] =...
+%     check_touch_ff_orig(cord, ff, r, lower_bound.*a, upper_bound.*a)
+
 
 % Determine the number of spheres needed to satisfy fill fraction
 % requirement
