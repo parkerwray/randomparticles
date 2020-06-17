@@ -4,11 +4,11 @@ function total = get_total_volume(radii, dimension)
         set of radii
     %}
     total = 0;
-    for radius = radii
+    for i = 1:length(radii)
         if (dimension == 2)
-           total = total + pi * (radius ^ 2);
+           total = total + pi * (radii(i) ^ 2);
         else
-            total = total + pi * (4 / 3) * (radius ^ 3);
+            total = total + pi * (4 / 3) * (radii(i) ^ 3);
         end
     end
 end

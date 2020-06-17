@@ -6,7 +6,7 @@ function radii = get_radii(area, ff, distr, margin, dimension)
 
     radii = [];
     while get_total_volume(radii, dimension) < ff * area
-        radii = [radii, distr(0)];
+        radii = [radii distr(0)];
     end
     total_area = get_total_volume(radii, dimension);
     while abs((total_area / area) - ff) > margin
@@ -14,7 +14,7 @@ function radii = get_radii(area, ff, distr, margin, dimension)
        if total_area / area > ff
           radii(randi(length(radii))) = [];
        else
-          radii = [radii, distr(0)];
+          radii = [radii distr(0)];
        end
        total_area = get_total_volume(radii, dimension);
     end

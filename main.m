@@ -10,7 +10,7 @@ dimension = 3;
 r = 500;
 sigma = 100;
 distr = @(~) random('normal', r, sigma);
-ff = 0.60;
+ff = 0.50;
 
 margin = 0.01;
 
@@ -18,9 +18,10 @@ bounds = [3,3,2];
 giggles = 100;
 tic;
 
-area = (2000^3) * bounds(1) * bounds(2) * bounds(3);
+area = ((2*4*r./sqrt(2))^3) * bounds(1) * bounds(2) * bounds(3);
 %disp(num2str(area))
 radii = get_radii(area, ff, distr, margin, 3);
+x = get_total_volume(radii, 3)
 Nspheres = length(radii);
 [radii, cords, bounds, a, am] = ...
     make_random_fcc_v2(r, radii, ff, bounds, Nspheres, giggles, dimension);
