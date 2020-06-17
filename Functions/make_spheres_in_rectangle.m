@@ -14,7 +14,7 @@ hold on
 % figure,
 hold on 
 for i = 1:size(cord,1)
-    surf(r.*x+cord(i,1), r.*y+cord(i,2), r.*z+cord(i,3))
+    surf(r(i).*x+cord(i,1), r(i).*y+cord(i,2), r(i).*z+cord(i,3))
     %shading interp
 end
 title(['Number of particles: ', num2str(size(cord,1))])

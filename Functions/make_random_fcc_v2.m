@@ -1,5 +1,5 @@
-function [cord, bounds, a, am, Nspheres] = ...
-    make_random_fcc_v2(r, ff, bounds, giggles, dimension)
+function [radii, cord, bounds, a, am] = ...
+    make_random_fcc_v2(r, radii, ff, bounds, Nspheres, giggles, dimension)
 
 % NOTE MAX FF IS 55
 
@@ -16,7 +16,7 @@ am = a;
 % disp(['Lattice spacing: ', num2str(am)]);
 % disp(['Particle spacing : ', num2str(2*d)]);
 
-if upper_bound(3).*r <= r || dimension == 2
+if upper_bound(3)*r <= r || dimension == 2
     dimension = 2;
     upper_bound(3) = 1.1;
 else 
@@ -98,14 +98,14 @@ cord_periodic = cord;
 Vspace = prod((2.*bounds).*a);
 Aspace = prod((2.*bounds(1:2)).*a);
 
-if dimension == 2
-    Nspheres = floor(ff*Aspace/Asphere);
-else
-    Nspheres = floor(ff*Vspace/Vsphere); % Get number of spheres for true ff
-end
+%if dimension == 2
+%    Nspheres = floor(ff*Aspace/Asphere);
+%else
+%    Nspheres = floor(ff*Vspace/Vsphere); % Get number of spheres for true ff
+%end
 
-disp(['Requested fill fraction: ', num2str(100*ff)]);
-disp(['Requires ' , num2str(Nspheres), ' particles.']);
+%disp(['Requested fill fraction: ', num2str(100*ff)]);
+%disp(['Requires ' , num2str(Nspheres), ' particles.']);
 
 Nsize = size(cord,1);
 while Nsize > Nspheres
@@ -115,21 +115,24 @@ while Nsize > Nspheres
     Nsize = size(cord,1);
 end
 
-removed_periodic_cords = cord;
+%removed_periodic_cords = cord;
 
-Nspheres = size(cord,1);
-if dimension == 2
-    disp(['Created area fill fraciton: ', num2str(100*Nspheres.*Asphere/Aspace)]);
-else
-    disp(['Created fill fraction: ', num2str(100*Nspheres.*Vsphere./Vspace)]);
-end
-disp(['Using ' , num2str(Nspheres), ' particles.']);
+%Nspheres = size(cord,1);
+%if dimension == 2
+%    disp(['Created area fill fraciton: ', num2str(100*Nspheres.*Asphere/Aspace)]);
+%else
+%    disp(['Created fill fraction: ', num2str(100*Nspheres.*Vsphere./Vspace)]);
+%end
+%disp(['Using ' , num2str(Nspheres), ' particles.']);
 
 bounds = [-upper_bound;upper_bound].*a;
+% Add separability part
+cord = fix_overlap(cord, radii, bounds(1,:), bounds(2,:));
+% Randomize positions after separation
+cord = make_random(cord, radii, bounds(1,:), bounds(2,:), giggles, dimension);
 
-cord = make_random(cord, r, bounds(1,:)+[0,0,r], bounds(2,:)-[0,0,r], giggles, dimension);
-
-cord = make_all_mirrors(cord, r, bounds(1,:), bounds(2,:));
+% Generates all necessary mirror images for it to be periodic
+[radii, cord] = make_all_mirrors(cord, radii, bounds(1,:), bounds(2,:));
 
 
 disp(newline);
