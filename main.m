@@ -5,26 +5,37 @@ clc;
 % test_fcc; % Pass
 % test_flips; % Pass
 % test_make_random_v2; % Pass
-dimension = 3;
+dimension = 2;
 
 r = 500;
 sigma = 100;
 distr = @(~) random('normal', r, sigma);
-ff = 0.50;
+ff = 0.4;
 
 margin = 0.01;
 
-bounds = [3,3,2]; 
+bounds = [20,20,1]; 
 giggles = 100;
 tic;
 
-area = ((2*4*r./sqrt(2))^3) * bounds(1) * bounds(2) * bounds(3);
-%disp(num2str(area))
-radii = get_radii(area, ff, distr, margin, 3);
-x = get_total_volume(radii, 3)
+
+%[radii, cords, bounds, a, am] = ...
+%    make_random_fcc_v2(r, radii, ff, bounds, Nspheres, giggles, dimension);
+[cords, bounds, a] = make_fcc_v3(r, bounds, dimension);
+if dimension == 2
+    area = (2*a)^2 * bounds(2,1) * bounds(2,2);
+else
+    area = ((2*a)^3) * bounds(2,1) * bounds(2,2) * bounds(2,3);  
+end
+disp(num2str(area))
+radii = get_radii(area, ff, distr, margin, dimension);
+%x = get_total_volume(radii, 3)
 Nspheres = length(radii);
-[radii, cords, bounds, a, am] = ...
-    make_random_fcc_v2(r, radii, ff, bounds, Nspheres, giggles, dimension);
+disp("a");
+[radii, cords] = full_randomize(cords, radii, bounds.*a, ...
+    giggles, dimension);
+%disp("Actual ff" + num2str(get_total_volume(radii, 3)/area))
+toc;
 %%
 % clc;
 % lower_bound = bounds(1,:);
