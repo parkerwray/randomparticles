@@ -1,4 +1,4 @@
-function [cord, bounds, a, Nspheres] = ...
+function [cord, bounds, a] = ...
     make_fcc_v3(r, bounds, dimension)
 %{ 
     This function generates spheres in a FCC orientation within the limits
@@ -93,7 +93,6 @@ cord(cord(:,1)>upper_bound(1).*a-r,:) = [];
 cord(cord(:,2)>upper_bound(2).*a-r,:) = [];
 cord(cord(:,3)>upper_bound(3).*a-r,:) = [];
 
-Nspheres = size(cord,1);
 bounds = [-upper_bound; upper_bound];
 
 end

@@ -21,8 +21,8 @@ function delta = get_all_move_directions(cords, radii, lower_bounds, upper_bound
              delta(idx1,:) = delta(idx1,:) + pushes(idx,:); 
           end
        end
-       if norm(delta(idx1,:)) ~= 0
-          delta(idx1,:) = delta(idx1,:) ./ norm(delta(idx1,:)); 
-       end
+       %if norm(delta(idx1,:)) ~= 0
+       %   delta(idx1,:) = delta(idx1,:) ./ norm(delta(idx1,:)); 
+       %end
     end
 end
