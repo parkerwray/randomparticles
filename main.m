@@ -7,15 +7,15 @@ clc;
 % test_make_random_v2; % Pass
 dimension = 2;
 
-r = 44;
-sigma = 10;
+r = 100;
+sigma = 0;
 distr = @(~) random('normal', r, sigma);
-ff = 0.4;
+ff = 0.8;
 
 margin = 0.01;
 
 bounds = [10,10,2]; 
-giggles = 500;
+giggles = 100;
 tic;
 
 
@@ -29,12 +29,20 @@ else
 end
 disp(num2str(area))
 radii = get_radii(area, ff, distr, margin, dimension);
+if dimension == 2
+    disp(['Created area fill fraction: ', ...
+        num2str(100*get_total_volume(radii(1:size(cords,1)),2) / area)]);
+else
+    disp(['Created fill fraction: ', ...
+        num2str(100*get_total_volume(radii(1:size(cords,1)),3) / area)]);
+end
+disp(['Using ' , num2str(length(radii)), ' particles.']);
 %x = get_total_volume(radii, 3)
 Nspheres = length(radii);
 [radii, cords] = full_randomize(cords, radii, bounds.*a, ...
     giggles, dimension);
-disp("Actual ff (assuming non-uniformity)" + ...
-    num2str(get_total_volume(unique(radii), dimension)/area))
+%disp("Actual ff (assuming non-uniformity)" + ...
+%    num2str(get_total_volume(unique(radii), dimension)/area))
 toc;
 figure, 
 plot_radii(radii); %pass
