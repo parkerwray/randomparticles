@@ -15,7 +15,7 @@ else
     dist = dist1;
     dcord = dcord1;
 end
-if (dist3 > dist)
+if (dist3 < dist)
    dist = dist3;
    dcord = cord1 - cord2;
 end

@@ -5,7 +5,7 @@ clc;
 % test_fcc; % Pass
 % test_flips; % Pass
 % test_make_random_v2; % Pass
-dimension = 2;
+dimension = 3;
 
 r = 500;
 sigma = 100;
@@ -14,7 +14,7 @@ ff = 0.4;
 
 margin = 0.01;
 
-bounds = [20,20,1]; 
+bounds = [3,3,2]; 
 giggles = 100;
 tic;
 
@@ -31,11 +31,12 @@ disp(num2str(area))
 radii = get_radii(area, ff, distr, margin, dimension);
 %x = get_total_volume(radii, 3)
 Nspheres = length(radii);
-disp("a");
 [radii, cords] = full_randomize(cords, radii, bounds.*a, ...
     giggles, dimension);
 %disp("Actual ff" + num2str(get_total_volume(radii, 3)/area))
 toc;
+plot_radii(radii); %pass
+has_intersections = check_intersection(cords, radii)
 %%
 % clc;
 % lower_bound = bounds(1,:);
