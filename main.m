@@ -33,10 +33,11 @@ radii = get_radii(area, ff, distr, margin, dimension);
 Nspheres = length(radii);
 [radii, cords] = full_randomize(cords, radii, bounds.*a, ...
     giggles, dimension);
-%disp("Actual ff" + num2str(get_total_volume(radii, 3)/area))
+disp("Actual ff (assuming non-uniformity)" + ...
+    num2str(get_total_volume(unique(radii), dimension)/area))
 toc;
 plot_radii(radii); %pass
-has_intersections = check_intersection(cords, radii)
+has_intersections = check_intersection(cords, radii) %pass
 %%
 % clc;
 % lower_bound = bounds(1,:);
