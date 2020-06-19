@@ -5,17 +5,17 @@ clc;
 % test_fcc; % Pass
 % test_flips; % Pass
 % test_make_random_v2; % Pass
-dimension = 3;
+dimension = 2;
 
-r = 500;
-sigma = 100;
+r = 44;
+sigma = 10;
 distr = @(~) random('normal', r, sigma);
 ff = 0.4;
 
 margin = 0.01;
 
-bounds = [3,3,2]; 
-giggles = 100;
+bounds = [10,10,2]; 
+giggles = 500;
 tic;
 
 
@@ -36,6 +36,7 @@ Nspheres = length(radii);
 disp("Actual ff (assuming non-uniformity)" + ...
     num2str(get_total_volume(unique(radii), dimension)/area))
 toc;
+figure, 
 plot_radii(radii); %pass
 has_intersections = check_intersection(cords, radii) %pass
 %%
@@ -50,7 +51,7 @@ has_intersections = check_intersection(cords, radii) %pass
 
 
 %%
-make_spheres(cords, radii, bounds(1,:), bounds(2,:));
-disp(['X distance: ', num2str(bounds(2,1)-bounds(1,1))])
-disp(['Y distance: ', num2str(bounds(2,2)-bounds(1,2))])
-disp(['Z distance: ', num2str(bounds(2,3)-bounds(1,3))])
+make_spheres(cords, radii, bounds(1,:).*a, bounds(2,:).*a);
+disp(['X distance: ', num2str((bounds(2,1)-bounds(1,1)).*a)])
+disp(['Y distance: ', num2str((bounds(2,2)-bounds(1,2)).*a)])
+disp(['Z distance: ', num2str((bounds(2,3)-bounds(1,3)).*a)])
