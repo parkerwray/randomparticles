@@ -4,7 +4,7 @@ function cords = make_random(cords, r, lower_bounds, upper_bounds, giggles, dime
 % periodic boundary conditions
 
 disp('Randomizing the nanoparticle distribution.')
-disp('Itteration number:')
+disp('Iteration number:')
 lineLength = fprintf(num2str(1),21.1);
 times_moved = zeros(size(cords,1),1);
 for i = 1:giggles
@@ -23,6 +23,7 @@ for i = 1:giggles
         %new_cord = periodic_BC_3D(new_cord, lower_bounds, upper_bounds);
         new_cord0 = periodic_BC_3D(new_cord, lower_bounds + ...
             [0,0,r(idx)], upper_bounds - [0,0,r(idx)]);
+        %new_cord0 = periodic_BC_3D(new_cord, lower_bounds, upper_bounds);
         new_cord = make_mirror_3D(new_cord0, r(idx), ...
             lower_bounds, upper_bounds);
         
@@ -31,12 +32,13 @@ for i = 1:giggles
         dummyr = r;
         dummyr(idx) = [];
         %flag = check_touch(new_cord, dummy, r, lower_bounds, upper_bounds);
-        
+        flag = 0;
         for idx2 = 1:size(new_cord,1)
-            flag = check_touch(new_cord(idx2,:), dummy, r(idx), ...
+            flag = flag + check_touch(new_cord(idx2,:), dummy, r(idx), ...
                 dummyr, lower_bounds, upper_bounds);
         end
-        
+        %flag = check_touch(new_cord0, dummy, r(idx), dummyr, ...
+        %    lower_bounds, upper_bounds);
         if flag == 0
             times_moved(idx) = times_moved(idx)+1;
             cords(idx,:) = new_cord0;
