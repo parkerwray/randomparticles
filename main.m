@@ -5,7 +5,7 @@ clc;
 % test_fcc; % Pass
 % test_flips; % Pass
 % test_make_random_v2; % Pass
-dimension = 2;
+dimension = 3;
 
 r = 100;
 sigma = 0;
@@ -14,14 +14,14 @@ ff = 0.8;
 
 margin = 0.01;
 
-bounds = [10,10,2]; 
+bounds = [4,4,2]; 
 giggles = 100;
 tic;
 
 
 %[radii, cords, bounds, a, am] = ...
 %    make_random_fcc_v2(r, radii, ff, bounds, Nspheres, giggles, dimension);
-[cords, bounds, a] = make_fcc_v3(r, bounds, dimension);
+[cords, bounds, a] = make_fcc_3D(r, bounds);
 if dimension == 2
     area = (2*a)^2 * bounds(2,1) * bounds(2,2);
 else

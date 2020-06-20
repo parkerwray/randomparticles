@@ -4,8 +4,6 @@ clear;
 clc;
 ff=0.1;
 
-
-
 ff = 0.1:0.01:0.73;
 
 parfor (idx = 1:length(ff))
