@@ -23,10 +23,8 @@ for i = 1:giggles
         end
         
         new_cord = random_move(cords(idx, :),r(idx), dimension);
-        %new_cord = periodic_BC_3D(new_cord, lower_bounds, upper_bounds);
         new_cord0 = periodic_BC_3D(new_cord, lower_bounds + ...
             [0,0,r(idx)], upper_bounds - [0,0,r(idx)]);
-        %new_cord0 = periodic_BC_3D(new_cord, lower_bounds, upper_bounds);
         new_cord = make_mirror_3D(new_cord0, r(idx), ...
             lower_bounds, upper_bounds);
         

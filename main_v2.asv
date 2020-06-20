@@ -18,21 +18,17 @@ bounds = [2,2,2];
 giggles = 100;
 tic;
 
-
-%[radii, cords, bounds, a, am] = ...
-%    make_random_fcc_v2(r, radii, ff, bounds, Nspheres, giggles, dimension);
 [cords, bounds, a] = make_fcc_3D(r, bounds);
-%radii = get_radii(area, ff, distr, margin, dimension);
-[radii, ff, Nspheres] = get_radii_and_ff(cords, bounds, a,...
+[radii, ff, Nspheres] = get_radii_and_ff(bounds, a,...
     ff, distr, margin, dimension);
 [radii, cords] = full_randomize(cords, radii, bounds.*a, ...
     giggles, dimension);
-%disp("Actual ff (assuming non-uniformity)" + ...
-%    num2str(get_total_volume(unique(radii), dimension)/area))
+
 toc;
 figure, 
 plot_radii(radii); %pass
-has_intersections = check_intersection(cords, radii) %pass
+disp('Re
+has_intersections = check_intersection(cords, radii); %pass
 %%
 % clc;
 % lower_bound = bounds(1,:);
@@ -46,6 +42,7 @@ has_intersections = check_intersection(cords, radii) %pass
 
 %%
 make_spheres(cords, radii, bounds(1,:).*a, bounds(2,:).*a);
+disp('Simulation region:')
 disp(['X distance: ', num2str((bounds(2,1)-bounds(1,1)).*a)])
 disp(['Y distance: ', num2str((bounds(2,2)-bounds(1,2)).*a)])
 disp(['Z distance: ', num2str((bounds(2,3)-bounds(1,3)).*a)])

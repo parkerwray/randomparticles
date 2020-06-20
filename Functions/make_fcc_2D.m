@@ -41,27 +41,6 @@ for y = lower_bound(2):upper_bound(2)
     end  
 end
 
-% Validate that there are no particle repeats (i.e., complete overlap).
-% If there are particle repeats, remove all but one of the repeat particles
-% and send an error to the user that the simulation may be incorrect. 
-dummy = unique(cord,'rows'); %Breaks 3D necessary for 2D
-if size(dummy,1) ~= size(cord,1)
-    FLAG = 1;
-    disp('ERROR! When making the FCC lattice particles were repeated.')
-    disp('Repeat particles are being removed.')
-    disp('Fill fraction and other metrics may be incorrect!')
-    cord = dummy;
-end
-[flag,loc] = ismember([0,0,0],cord,'rows');
-if flag == 1
-    cord(loc,:) = [];
-    cord = [0,0,0;cord];
-else
-    FLAG = 1;
-    disp('ERROR! No particle was generated in the center!')
-    %keyboard;
-end
-
 % An FCC lattice is generated slightly overflowing the desired simulation
 % region. This is becuase you repeat an enire lattice, which has multiple
 % particles. Therefore, to get the simulation region we want, we cut our
@@ -92,22 +71,14 @@ cord(cord(:,3)>upper_bound(3).*a-r,:) = [];
 bounds = [-upper_bound; upper_bound];
 bounds(:,3) = bounds(:,3).*r/a; % Z length = 2r bec. 2D.
 
-% Check and make sure no particles are overlapping. 
-[overlap_distance, overlap_idx] = ...
-    check_distance_function_v2(cord, r, bounds(1,:).*a, bounds(2,:).*a);
-
-if sum(overlap_idx) ~= 0
-    disp(['ERROR! Particles created in the 2D FCC method are overlaping!'])
-    disp(['This may break other functions and return wrong FF metrics'])
-    FLAG = 1;
-end
-
-
+r = r.*ones(size(cord,1),1);
+FLAG = check_zero_repeat_overlap(cord, bounds.*a, r);
 if FLAG == 0
     disp('2D FCC lattice generation was sucessful!')
     disp('A particle was generated at [0,0,0].')
     disp('No repeat particles were found.')
     disp('No overlaping particles were found.')
+    disp(newline)
 else
     keyboard;
 end
