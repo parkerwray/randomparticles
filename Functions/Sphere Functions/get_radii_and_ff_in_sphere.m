@@ -1,13 +1,14 @@
-function [radii, ff_created, Nspheres] = get_radii_and_ff(bounds, a, ff, distr, margin, dimension)
+function [radii, ff_created, Nspheres] = get_radii_and_ff_in_sphere(scale, ...
+    r, ff, distr, margin, dimension)
     %{
         Generates random radii according to the input distribution
         such that the fill fraction is within the margin
     %}
 
     if dimension == 2
-        area = (2*a)^2 * bounds(2,1) * bounds(2,2);
+        area = pi * ((scale * r) ^ 2);
     else
-        area = ((2*a)^3) * bounds(2,1) * bounds(2,2) * bounds(2,3);  
+        area = (4/3) * pi * ((scale * r) ^ 3);  
     end
     %disp(num2str(area));
 
