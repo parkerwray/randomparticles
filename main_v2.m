@@ -6,7 +6,8 @@ clc;
 % test_flips; % Pass
 % test_make_random_v2; % Pass
 dimension = 3;
-
+type = "sphere";
+scale = 10;
 r = 100;
 sigma = 10;
 distr = @(~) random('normal', r, sigma);
@@ -17,13 +18,23 @@ margin = 0.01;
 bounds = [2,2,2]; 
 giggles = 100;
 tic;
-
-[cords, bounds, a] = make_fcc_3D(r, bounds);
-[radii, ff, Nspheres] = get_radii_and_ff(bounds, a,...
-    ff, distr, margin, dimension);
-[radii, cords] = full_randomize(cords, radii, bounds.*a, ...
-    giggles, dimension);
-
+if strcmp(type, "sphere") == 1
+    [radii, ff, Nspheres] = get_radii_and_ff_in_sphere(scale, r, ff, ...
+        distr, margin, dimension);
+    cords = full_randomize_in_sphere(radii, scale*r, giggles, dimension);
+elseif strcmp(type, "film") == 1
+    if dimension == 3
+        [cords, bounds, a] = make_fcc_3D(r, bounds);
+    else
+        [cords, bounds, a] = make_fcc_2D(r, bounds);
+    end
+    [radii, ff, Nspheres] = get_radii_and_ff(bounds, a,...
+        ff, distr, margin, dimension);
+    [radii, cords] = full_randomize(cords, radii, bounds.*a, ...
+        giggles, dimension);
+else
+    disp("Invalid geometry requested."); 
+end
 toc;
 figure, 
 plot_radii(radii); %pass
@@ -40,8 +51,13 @@ has_intersections = check_intersection(cords, radii); %pass
 
 
 %%
-make_spheres(cords, radii, bounds(1,:).*a, bounds(2,:).*a);
-disp('Simulation region:')
-disp(['X distance: ', num2str((bounds(2,1)-bounds(1,1)).*a)])
-disp(['Y distance: ', num2str((bounds(2,2)-bounds(1,2)).*a)])
-disp(['Z distance: ', num2str((bounds(2,3)-bounds(1,3)).*a)])
+if strcmp(type, "film") == 1
+    make_spheres(cords, radii, bounds(1,:).*a, bounds(2,:).*a);
+    disp('Simulation region:')
+    disp(['X distance: ', num2str((bounds(2,1)-bounds(1,1)).*a)])
+    disp(['Y distance: ', num2str((bounds(2,2)-bounds(1,2)).*a)])
+    disp(['Z distance: ', num2str((bounds(2,3)-bounds(1,3)).*a)])
+elseif strcmp(type, "sphere") == 1
+    make_spheres_in_sphere(cords, radii, r*scale);
+    %make_spheres(cords, radii, [-1000,-1000,-1000], [1000,1000,1000]);
+end
