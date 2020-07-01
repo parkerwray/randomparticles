@@ -6,12 +6,14 @@ clc;
 % test_flips; % Pass
 % test_make_random_v2; % Pass
 dimension = 3;
-type = "sphere";
+type = "film";
 scale = 10;
 r = 100;
 sigma = 10;
 distr = @(~) random('normal', r, sigma);
 ff = 0.4;
+
+center_radius = 100;
 
 margin = 0.01;
 
@@ -19,8 +21,8 @@ bounds = [2,2,2];
 giggles = 100;
 tic;
 if strcmp(type, "sphere") == 1
-    [radii, ff, Nspheres] = get_radii_and_ff_in_sphere(scale, r, ff, ...
-        distr, margin, dimension);
+    [radii, ff, Nspheres] = get_radii_and_ff_in_sphere(scale, r, ...
+        center_radius, ff, distr, margin, dimension);
     cords = full_randomize_in_sphere(radii, scale*r, giggles, dimension);
 elseif strcmp(type, "film") == 1
     if dimension == 3
@@ -29,7 +31,7 @@ elseif strcmp(type, "film") == 1
         [cords, bounds, a] = make_fcc_2D(r, bounds);
     end
     [radii, ff, Nspheres] = get_radii_and_ff(bounds, a,...
-        ff, distr, margin, dimension);
+        center_radius, ff, distr, margin, dimension);
     [radii, cords] = full_randomize(cords, radii, bounds.*a, ...
         giggles, dimension);
 else

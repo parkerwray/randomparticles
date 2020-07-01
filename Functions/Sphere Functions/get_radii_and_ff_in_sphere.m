@@ -1,5 +1,5 @@
 function [radii, ff_created, Nspheres] = get_radii_and_ff_in_sphere(scale, ...
-    r, ff, distr, margin, dimension)
+    r, center_r, ff, distr, margin, dimension)
     %{
         Generates random radii according to the input distribution
         such that the fill fraction is within the margin
@@ -12,7 +12,7 @@ function [radii, ff_created, Nspheres] = get_radii_and_ff_in_sphere(scale, ...
     end
     %disp(num2str(area));
 
-    radii = [];
+    radii = [center_r];
     while get_total_volume(radii, dimension) < ff * area
         radii = [radii distr(0)];
     end
@@ -20,7 +20,7 @@ function [radii, ff_created, Nspheres] = get_radii_and_ff_in_sphere(scale, ...
     while abs((total_area / area) - ff) > margin
        %disp(num2str(length(radii)))
        if total_area / area > ff
-          radii(randi(length(radii))) = [];
+          radii(1+randi(length(radii)-1)) = [];
        else
           radii = [radii distr(0)];
        end
