@@ -42,7 +42,10 @@ function [radii, ff_created, Nspheres] = get_radii_and_ff_in_sphere(scale, ...
     
     frac_diff = (ff_created-ff)/ff;
     if abs(frac_diff) > margin
+        for idx = 1:5
+        disp(['!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'])
         disp(['ERROR! The fill fraction you requested was not satisfied!'])
+        end
     end
     disp(['The fractional difference in', newline,...
         'created and requestion fill fraction is: ',...
