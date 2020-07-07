@@ -17,7 +17,7 @@ function [radii, ff_created, Nspheres] = get_radii_and_ff(bounds, a, ...
         radii = [radii distr(0)];
     end
     total_area = get_total_volume(radii, dimension);
-    while abs((total_area / area) - ff) > margin
+    while abs((total_area / area) - ff) > margin && ff > 0
        %disp(num2str(length(radii)))
        if total_area / area > ff
           radii(1+randi(length(radii)-1)) = [];
