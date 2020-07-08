@@ -1,5 +1,5 @@
 function [cord, bounds, a, FLAG] = ...
-    make_fcc_2D(r, bounds)
+    make_fcc_2D(r, bounds, loud)
 %{ 
     This function generates spheres in a FCC orientation within the limits
     of rectangular bounds. Periodic boundary conditions are used. If a
@@ -9,6 +9,9 @@ function [cord, bounds, a, FLAG] = ...
     bounds. Generating the mirror sphere can be achieved by a seperate
     function. 
 %}
+if nargin < 3
+    loud = 0;
+end
 FLAG = 0;
 upper_bound = bounds;
 lower_bound = -bounds;
@@ -72,6 +75,7 @@ bounds = [-upper_bound; upper_bound];
 bounds(:,3) = bounds(:,3).*r/a; % Z length = 2r bec. 2D.
 
 r = r.*ones(size(cord,1),1);
+if loud
 FLAG = check_zero_repeat_overlap(cord, bounds.*a, r);
 if FLAG == 0
     disp('2D FCC lattice generation was sucessful!')
@@ -81,6 +85,7 @@ if FLAG == 0
     disp(newline)
 else
     keyboard;
+end
 end
 
 end

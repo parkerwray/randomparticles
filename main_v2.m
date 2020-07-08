@@ -5,14 +5,14 @@ clc;
 % test_fcc; % Pass
 % test_flips; % Pass
 % test_make_random_v2; % Pass
-loud = 0;
-dimension = 3;
+loud = 1;
+dimension = 2;
 type = "film";
 scale = 10;
 r = 100;
 sigma = 10;
 distr = @(~) random('normal', r, sigma);
-ff = 0;
+ff = 0.4;
 
 center_radius = 100;
 
