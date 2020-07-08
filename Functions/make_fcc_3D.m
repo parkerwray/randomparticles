@@ -1,5 +1,8 @@
 function [cord, bounds, a, FLAG] = ...
-    make_fcc_3D(r, bounds)
+    make_fcc_3D(r, bounds, loud)
+if nargin < 3
+    loud = 1;
+end
 %{ 
     This function generates spheres in a FCC orientation within the limits
     of rectangular bounds. Periodic boundary conditions are used. If a
@@ -114,16 +117,18 @@ end
 %     FLAG = 1;
 % end
  r = r.*ones(size(cord,1),1);
- FLAG = check_zero_repeat_overlap(cord, bounds.*a, r);
-if FLAG == 0
-    disp('3D FCC lattice generation was sucessful!')
-    disp('A particle was generated at [0,0,0].')
-    disp('No repeat particles were found.')
-    disp('No overlaping particles were found.')
-    disp(newline)
-else
-    keyboard;
-end
+ if loud
+         FLAG = check_zero_repeat_overlap(cord, bounds.*a, r);
+        if FLAG == 0
+            disp('3D FCC lattice generation was sucessful!')
+            disp('A particle was generated at [0,0,0].')
+            disp('No repeat particles were found.')
+            disp('No overlaping particles were found.')
+            disp(newline)
+        else
+            keyboard;
+        end
+ end
 
 
 end

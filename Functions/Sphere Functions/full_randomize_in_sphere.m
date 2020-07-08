@@ -1,5 +1,5 @@
 function new_cords = full_randomize_in_sphere(radii, ...
-    R, giggles, dimension)
+    R, giggles, dimension, loud)
 
 new_cords = zeros(length(radii), 3);
 
@@ -18,10 +18,10 @@ for idx = 2:size(new_cords,1)
 end
 
 
-new_cords = fix_overlap_sphere(new_cords, radii, R);
+new_cords = fix_overlap_sphere(new_cords, radii, R, loud);
 
 
-new_cords = make_random_sphere(new_cords, radii, R, giggles, dimension);
+new_cords = make_random_sphere(new_cords, radii, R, giggles, dimension, loud);
 
 %{
 FLAG = check_zero_repeat_overlap(new_cords, bounds, new_radii);
