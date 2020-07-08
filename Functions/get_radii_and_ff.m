@@ -1,10 +1,14 @@
 function [radii, ff_created, Nspheres] = get_radii_and_ff(bounds, a, ...
-    center_r, ff, distr, margin, dimension)
+    center_r, ff, distr, margin, dimension, loud)
     %{
         Generates random radii according to the input distribution
         such that the fill fraction is within the margin
     %}
 
+    if nargin < 8
+        loud = 1;
+    end
+    
     if dimension == 2
         area = (2*a)^2 * bounds(2,1) * bounds(2,2);
     else
@@ -26,21 +30,26 @@ function [radii, ff_created, Nspheres] = get_radii_and_ff(bounds, a, ...
        end
        total_area = get_total_volume(radii, dimension);
     end
-    disp(['Requested fill fraction: ', num2str(100*ff)]);
-    
-    ff_created = total_area/area;
-    if dimension == 2
-        disp(['Created AREA fill fraction: ', ...
-            num2str(100*ff_created)]);
-    else
-        disp(['Created VOLUME fill fraction: ', ...
-            num2str(100*ff_created)]);
+    if loud
+        disp(['Requested fill fraction: ', num2str(100*ff)]);
     end
-    disp(['Using ' , num2str(length(radii)), ' particles.']);
+    ff_created = total_area/area;
+    if loud
+        if dimension == 2
+            disp(['Created AREA fill fraction: ', ...
+                num2str(100*ff_created)]);
+        else
+            disp(['Created VOLUME fill fraction: ', ...
+                num2str(100*ff_created)]);
+        end
+        disp(['Using ' , num2str(length(radii)), ' particles.']);
+    end
     %x = get_total_volume(radii, 3)
     Nspheres = length(radii);
     
     frac_diff = (ff_created-ff)/ff;
+    if loud
+        
     if abs(frac_diff) > margin
         disp(['ERROR! The fill fraction you requested was not satisfied!'])
     end
@@ -49,7 +58,7 @@ function [radii, ff_created, Nspheres] = get_radii_and_ff(bounds, a, ...
         num2str(100.*frac_diff), '%.'])
     disp(['The error margin you requested was: ', num2str(100.*margin),'%'])
     
-    
-    
     disp(newline)
+    
+    end
 end

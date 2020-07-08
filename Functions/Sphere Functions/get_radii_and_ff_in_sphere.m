@@ -1,5 +1,5 @@
 function [radii, ff_created, Nspheres] = get_radii_and_ff_in_sphere(scale, ...
-    r, center_r, ff, distr, margin, dimension)
+    r, center_r, ff, distr, margin, dimension, loud)
     %{
         Generates random radii according to the input distribution
         such that the fill fraction is within the margin
@@ -26,33 +26,37 @@ function [radii, ff_created, Nspheres] = get_radii_and_ff_in_sphere(scale, ...
        end
        total_area = get_total_volume(radii, dimension);
     end
-    disp(['Requested fill fraction: ', num2str(100*ff)]);
-    
-    ff_created = total_area/area;
-    if dimension == 2
-        disp(['Created AREA fill fraction: ', ...
-            num2str(100*ff_created)]);
-    else
-        disp(['Created VOLUME fill fraction: ', ...
-            num2str(100*ff_created)]);
+    if loud
+        disp(['Requested fill fraction: ', num2str(100*ff)]);
     end
-    disp(['Using ' , num2str(length(radii)), ' particles.']);
+    ff_created = total_area/area;
+    if loud
+        if dimension == 2
+            disp(['Created AREA fill fraction: ', ...
+                num2str(100*ff_created)]);
+        else
+            disp(['Created VOLUME fill fraction: ', ...
+                num2str(100*ff_created)]);
+        end
+        disp(['Using ' , num2str(length(radii)), ' particles.']);
+    end
     %x = get_total_volume(radii, 3)
     Nspheres = length(radii);
     
     frac_diff = (ff_created-ff)/ff;
-    if abs(frac_diff) > margin
+    if loud && abs(frac_diff) > margin
         for idx = 1:5
         disp(['!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'])
         disp(['ERROR! The fill fraction you requested was not satisfied!'])
         end
     end
-    disp(['The fractional difference in', newline,...
-        'created and requestion fill fraction is: ',...
-        num2str(100.*frac_diff), '%.'])
-    disp(['The error margin you requested was: ', num2str(100.*margin),'%'])
-    
+    if loud
+        disp(['The fractional difference in', newline,...
+            'created and requestion fill fraction is: ',...
+            num2str(100.*frac_diff), '%.'])
+        disp(['The error margin you requested was: ', num2str(100.*margin),'%'])
     
     
     disp(newline)
+    end
 end

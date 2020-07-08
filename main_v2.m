@@ -5,13 +5,14 @@ clc;
 % test_fcc; % Pass
 % test_flips; % Pass
 % test_make_random_v2; % Pass
+loud = 0;
 dimension = 3;
 type = "film";
 scale = 10;
 r = 100;
 sigma = 10;
 distr = @(~) random('normal', r, sigma);
-ff = 0.4;
+ff = 0;
 
 center_radius = 100;
 
@@ -22,25 +23,27 @@ giggles = 100;
 tic;
 if strcmp(type, "sphere") == 1
     [radii, ff, Nspheres] = get_radii_and_ff_in_sphere(scale, r, ...
-        center_radius, ff, distr, margin, dimension);
-    cords = full_randomize_in_sphere(radii, scale*r, giggles, dimension);
+        center_radius, ff, distr, margin, dimension, loud);
+    cords = full_randomize_in_sphere(radii, scale*r, giggles, dimension, loud);
 elseif strcmp(type, "film") == 1
     if dimension == 3
-        [cords, bounds, a] = make_fcc_3D(r, bounds);
+        [cords, bounds, a] = make_fcc_3D(r, bounds, loud);
     else
-        [cords, bounds, a] = make_fcc_2D(r, bounds);
+        [cords, bounds, a] = make_fcc_2D(r, bounds, loud);
     end
     [radii, ff, Nspheres] = get_radii_and_ff(bounds, a,...
-        center_radius, ff, distr, margin, dimension);
+        center_radius, ff, distr, margin, dimension, loud);
     [radii, cords] = full_randomize(cords, radii, bounds.*a, ...
-        giggles, dimension);
+        giggles, dimension, loud);
 else
     disp("Invalid geometry requested."); 
 end
-toc;
-figure, 
-plot_radii(radii); %pass
-has_intersections = check_intersection(cords, radii); %pass
+if loud
+    toc;
+    figure, 
+    plot_radii(radii); %pass
+    has_intersections = check_intersection(cords, radii); %pass
+end
 %%
 % clc;
 % lower_bound = bounds(1,:);
@@ -53,6 +56,8 @@ has_intersections = check_intersection(cords, radii); %pass
 
 
 %%
+if loud
+    
 if strcmp(type, "film") == 1
     make_spheres(cords, radii, bounds(1,:).*a, bounds(2,:).*a);
     disp('Simulation region:')
@@ -62,4 +67,6 @@ if strcmp(type, "film") == 1
 elseif strcmp(type, "sphere") == 1
     make_spheres_in_sphere(cords, radii, r*scale);
     %make_spheres(cords, radii, [-1000,-1000,-1000], [1000,1000,1000]);
+end
+
 end
