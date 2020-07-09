@@ -33,6 +33,10 @@ elseif strcmp(type, "film") == 1
     end
     [radii, ff, Nspheres] = get_radii_and_ff(bounds, a,...
         center_radius, ff, distr, margin, dimension, loud);
+    if dimension == 2
+       max_radii = max(radii(:));
+       bounds(:,3) = bounds(:,3).*max_radii/a/2;
+    end
     [radii, cords] = full_randomize(cords, radii, bounds.*a, ...
         giggles, dimension, loud);
 else
