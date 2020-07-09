@@ -72,7 +72,7 @@ cord(cord(:,2)>upper_bound(2).*a-r,:) = [];
 cord(cord(:,3)>upper_bound(3).*a-r,:) = [];
 
 bounds = [-upper_bound; upper_bound];
-bounds(:,3) = bounds(:,3).*r/a; % Z length = 2r bec. 2D.
+%bounds(:,3) = bounds(:,3).*r/a; % Z length = 2r bec. 2D.
 
 r = r.*ones(size(cord,1),1);
 if loud
