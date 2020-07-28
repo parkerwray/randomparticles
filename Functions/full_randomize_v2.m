@@ -1,7 +1,7 @@
-function [new_radii, new_cords] = full_randomize(cords, radii, bounds, ...
-    giggles, dimension, loud)
+function [new_radii, new_cords] = full_randomize_v2(cords, radii, bounds, ...
+    giggles, dimension, ff, margin, loud)
 
-if nargin < 6
+if nargin < 7
     loud = 1;
 end
 
@@ -22,11 +22,14 @@ end
 new_cords = fix_overlap(new_cords, radii, bounds(1,:), bounds(2,:), loud);
 new_cords = make_random(new_cords, radii, bounds(1,:), ...
     bounds(2,:), giggles, dimension, loud);
+
+FLAG = check_fill_fraction(bounds, radii, ff, margin, dimension);
+
 [new_radii, new_cords] = make_all_mirrors(new_cords, radii, ...
     bounds(1,:), bounds(2,:));
 
 
-FLAG = check_zero_repeat_overlap(new_cords, bounds, new_radii);
+FLAG = FLAG || check_zero_repeat_overlap(new_cords, bounds, new_radii);
     
 if FLAG == 0
     if loud
@@ -37,7 +40,7 @@ if FLAG == 0
         disp(newline)
     end
 else
-    disp("Overlap or repeat or missing center particle")
+    disp("?!?!?!?!?!?!")
     keyboard;
 end
 

@@ -10,10 +10,7 @@ if loud
     disp(['Randomly removing particles from FCC lattice to match FF request.'])
     disp(['Removing ', num2str(size(new_cords, 1)-length(radii)), ' particles.'])
 end
-if length(radii) > size(new_cords, 1)
-   disp("Not enough particles to satisfy fill fraction")
-   keyboard
-end
+
 while size(new_cords, 1) > length(radii) % Size function must have dimension argument even for vector.
    % Do not allow removal of [0,0,0] in index = 1;
    new_cords(randi([2,size(new_cords, 1)]),:)=[]; 
@@ -37,8 +34,9 @@ if FLAG == 0
         disp(newline)
     end
 else
-    disp("Overlap or repeat or missing center particle")
+    disp("Overlap or repeat ")
     keyboard;
 end
 
+end
 end

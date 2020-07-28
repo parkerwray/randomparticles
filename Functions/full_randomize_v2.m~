@@ -1,7 +1,7 @@
-function [new_radii, new_cords] = full_randomize(cords, radii, bounds, ...
-    giggles, dimension, loud)
+function [new_radii, new_cords] = full_randomize_v2(cords, radii, bounds, ...
+    giggles, dimension, ff, loud)
 
-if nargin < 6
+if nargin < 7
     loud = 1;
 end
 
@@ -22,6 +22,13 @@ end
 new_cords = fix_overlap(new_cords, radii, bounds(1,:), bounds(2,:), loud);
 new_cords = make_random(new_cords, radii, bounds(1,:), ...
     bounds(2,:), giggles, dimension, loud);
+
+if dimension == 2
+        area = (bounds(2,1)-bounds(1,1)) * (bounds(2,2)-bounds(1,2));
+    else
+        area = (bounds(2,1)-bounds(1,1)) * bounds(2,2) * bounds(2,3);  
+    end
+
 [new_radii, new_cords] = make_all_mirrors(new_cords, radii, ...
     bounds(1,:), bounds(2,:));
 
