@@ -47,15 +47,15 @@ function [radii, ff_created, Nspheres] = get_radii_and_ff(bounds, a, ...
     %x = get_total_volume(radii, 3)
     Nspheres = length(radii);
     
-    frac_diff = (ff_created-ff)/ff;
+    diff = (ff_created-ff); %/ff;
     if loud
         
-    if abs(frac_diff) > margin
+    if abs(diff) > margin
         disp(['ERROR! The fill fraction you requested was not satisfied!'])
     end
     disp(['The fractional difference in', newline,...
         'created and requestion fill fraction is: ',...
-        num2str(100.*frac_diff), '%.'])
+        num2str(100.*diff), '%.'])
     disp(['The error margin you requested was: ', num2str(100.*margin),'%'])
     
     disp(newline)
