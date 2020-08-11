@@ -1,4 +1,4 @@
-function [new_radii, new_cords] = full_randomize_v2(cords, radii, bounds, ...
+function [new_radii, new_cords3] = full_randomize_v2(cords, radii, bounds, ...
     giggles, dimension, ff, margin, loud)
 
 if nargin < 7
@@ -19,17 +19,17 @@ while size(new_cords, 1) > length(radii) % Size function must have dimension arg
    new_cords(randi([2,size(new_cords, 1)]),:)=[]; 
 end
 
-new_cords = fix_overlap(new_cords, radii, bounds(1,:), bounds(2,:), loud);
-new_cords = make_random(new_cords, radii, bounds(1,:), ...
+new_cords1 = fix_overlap(new_cords, radii, bounds(1,:), bounds(2,:), loud);
+new_cords2 = make_random(new_cords1, radii, bounds(1,:), ...
     bounds(2,:), giggles, dimension, loud);
 
 FLAG = check_fill_fraction(bounds, radii, ff, margin, dimension);
 
-[new_radii, new_cords] = make_all_mirrors(new_cords, radii, ...
+[new_radii, new_cords3] = make_all_mirrors(new_cords2, radii, ...
     bounds(1,:), bounds(2,:));
 
 
-FLAG = FLAG || check_zero_repeat_overlap(new_cords, bounds, new_radii);
+FLAG = FLAG || check_zero_repeat_overlap(new_cords3, bounds, new_radii);
     
 if FLAG == 0
     if loud

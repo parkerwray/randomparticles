@@ -6,7 +6,8 @@ function pushes = check_touch_pushes(new_cord, cords, r, radii, lower_bounds, up
 
 pushes = zeros(size(cords, 1), 3);
 for idx = 1:size(cords,1)
-    dist = get_distance(new_cord, cords(idx, :), lower_bounds, upper_bounds);
+    %dist = get_distance(new_cord, cords(idx, :), lower_bounds, upper_bounds);
+    dist = norm(new_cord - cords(idx,:));
     if dist < r + radii(idx)% - (10^(-3))
         %disp(dist);
         pushes(idx,:) = new_cord - cords(idx, :);
