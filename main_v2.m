@@ -7,10 +7,10 @@ clc;
 % test_make_random_v2; % Pass
 loud = 1;
 dimension = 2;
-type = "film";
+type = "sphere";
 scale = 10;
 r = 100;
-sigma = 10;
+sigma = 0;
 distr = @(~) random('normal', r, sigma);
 ff = 0.4;
 
@@ -42,6 +42,8 @@ elseif strcmp(type, "film") == 1
 else
     disp("Invalid geometry requested."); 
 end
+
+%%
 if loud
     toc;
     figure, 
