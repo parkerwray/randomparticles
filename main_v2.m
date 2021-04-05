@@ -7,7 +7,7 @@ clc;
 % test_make_random_v2; % Pass
 loud = 1;
 dimension = 2;
-type = "sphere";
+type = "film";
 scale = 10;
 r = 100;
 sigma = 0;
@@ -18,8 +18,8 @@ center_radius = 100;
 
 margin = 0.01;
 
-bounds = [2,2,2]; 
-giggles = 100;
+bounds = [6,6,2]; 
+giggles = 1000;
 tic;
 if strcmp(type, "sphere") == 1
     [radii, ff, Nspheres] = get_radii_and_ff_in_sphere(scale, r, ...
