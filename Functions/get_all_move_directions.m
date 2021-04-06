@@ -16,7 +16,7 @@ function delta = get_all_move_directions(cords, radii, lower_bounds, upper_bound
            pushes = check_touch_pushes(cords(idx1,:), cords, ...
                radii(idx1), radii, lower_bounds, upper_bounds);
            for idx = 1:size(pushes, 1)
-               delta(idx1,:) = delta(idx1,:) + pushes(idx1,:);
+               delta(idx1,:) = delta(idx1,:) + pushes(idx,:);
            end
             %{
             new_cord = make_mirror_3D(cords(idx1,:), radii(idx1), ...
